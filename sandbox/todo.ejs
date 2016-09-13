@@ -1,3 +1,40 @@
+<script>
+function add(){
+
+  console.log("add");
+  var item = document.getElementById("item");
+  console.log(item.value);
+
+  var xmlHttp = new XMLHttpRequest();
+
+  xmlHttp.onreadystatechange = function() {
+      if (xmlHttp.readyState == 4 && xmlHttp.status == 200)
+          callback(xmlHttp.responseText);
+  }
+  xmlHttp.open( "GET", "todo/add?item="+item.value, false ); // false for synchronous request
+  xmlHttp.send( null );
+}
+
+
+function remove(item){
+
+  console.log("remove");
+  console.log(item);
+
+  var xmlHttp = new XMLHttpRequest();
+
+  xmlHttp.onreadystatechange = function() {
+      if (xmlHttp.readyState == 4 && xmlHttp.status == 200)
+          callback(xmlHttp.responseText);
+  }
+  xmlHttp.open( "GET", "todo/done/"+item, false ); // false for synchronous request
+  xmlHttp.send( null );
+
+}
+
+</script>
+
+
 <h1>ma todo liste</h1>
 
   <%= todos.length %>
@@ -6,11 +43,18 @@
     <%
       for(var i = 0 ; i < todos.length ; i++) {
     %>
-        <li> <%= todos[i].name %> </li>
+        <li>
+          <% if(todos[i].done){ %>
+            o
+          <% } else { %>
+            <a href="javascript:remove(' <%= todos[i].name %> ')"> x </a>
+          <% } %>
+          <%= todos[i].name %>
+        </li>
     <%
       }
     %>
 
   </ul>
 
-<input type="text" name="item"/> <input type="button" id="add"> add </input>
+<input type="text" id="item"/> <a href='javascript:add()'> add </a>

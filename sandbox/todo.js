@@ -31,5 +31,23 @@ app.get('/todo/add', function(req, res) {
     res.end();
 });
 
+app.get('/todo/done/:item', function(req, res) {
+
+    console.log(req.params.item);
+
+    var toBeDone = req.params.item;
+
+    for( var i = 0; i < myTodos.length; i++){
+      if(myTodos[i].name === toBeDone){
+        myTodos[i].done = true;
+        console.log(myTodos[i].name+ " done");
+      }
+
+    }
+
+    res.end();
+});
+
+
 
 app.listen(8181);
